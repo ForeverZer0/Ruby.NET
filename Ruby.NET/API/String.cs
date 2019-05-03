@@ -19,7 +19,7 @@ namespace RubyNET
         [DllImport(LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         private static extern VALUE rb_str_new_cstr(byte[] str);
 
-        public static VALUE rb_str_new(string str) => rb_str_new_cstr(Encoding.UTF8.GetBytes(str));
+        public static VALUE rb_str_new(string str) => rb_str_new_cstr(Encode(str));
 
         [DllImport(LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         public static extern VALUE rb_str_new(IntPtr ptr, int length);

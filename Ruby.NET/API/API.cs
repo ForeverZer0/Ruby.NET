@@ -10,6 +10,7 @@ namespace RubyNET
 {
     [SuppressUnmanagedCodeSecurity]
     [SuppressMessage("ReSharper", "IdentifierTypo")]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public static partial class API
     {
         public const string LIBRARY = "ruby";
@@ -40,7 +41,7 @@ namespace RubyNET
         [DllImport(LIBRARY, CallingConvention = CallingConvention.Cdecl)] 
         public static extern int ruby_cleanup(int state);
         
-        public static void ruby_script(string name) => ruby_script(Encoding.UTF8.GetBytes(name));
+        public static void ruby_script(string name) => ruby_script(Encode(name));
 
         [DllImport(LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         public static extern unsafe void* ruby_xmalloc(int size);
@@ -64,7 +65,7 @@ namespace RubyNET
         [DllImport(LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         private static extern ID rb_intern(byte[] value);
 
-        public static ID rb_intern(string value) => rb_intern(Encoding.UTF8.GetBytes(value));
+        public static ID rb_intern(string value) => rb_intern(Encode(value));
         
         [DllImport(LIBRARY, EntryPoint = "rb_id2name", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr _rb_id2name(ID id);
@@ -116,14 +117,13 @@ namespace RubyNET
         [DllImport(LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         private static extern VALUE rb_eval_string(byte[] str);
 
-        public static VALUE rb_eval_string(string str) => rb_eval_string(Encoding.UTF8.GetBytes(str));
+        public static VALUE rb_eval_string(string str) => rb_eval_string(Encode(str));
 
         [DllImport(LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         private static extern VALUE rb_eval_string_protect(byte[] str, out int state);
 
         public static VALUE rb_eval_string_protect(string str, out int state) => 
-            rb_eval_string_protect(Encoding.UTF8.GetBytes(str), out state);
-        
+            rb_eval_string_protect(Encode(str), out state);
         
         [DllImport(LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         public static extern void ruby_show_copyright();
@@ -141,6 +141,6 @@ namespace RubyNET
         private static extern void rb_warn(byte[] str, VALUE[] args);
 
         public static void rb_warn(string str, params VALUE[] args) =>
-            rb_warn(Encoding.UTF8.GetBytes(str), new VALUE[0]);
+            rb_warn(Encode(str), new VALUE[0]);
     }
 }

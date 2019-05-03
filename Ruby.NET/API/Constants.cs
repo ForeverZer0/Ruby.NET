@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Text;
 
 namespace RubyNET
 {
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)][SuppressUnmanagedCodeSecurity]
-    public unsafe delegate void RubyDataFunc(void* data);
-
+    
     [SuppressUnmanagedCodeSecurity]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     [SuppressMessage("ReSharper", "IdentifierTypo")]
@@ -251,5 +251,8 @@ namespace RubyNET
                 throw new InvalidOperationException($"Failed to import \"{name}\"");
             return address;
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static byte[] Encode(string str) => Encoding.UTF8.GetBytes(str);
     }
 }

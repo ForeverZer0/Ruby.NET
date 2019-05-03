@@ -12,6 +12,7 @@ namespace RubyNET
             args = args.Prepend(string.Empty).ToArray();
             
             ruby_init();
+
             var node = ruby_options(args.Length, args);
             if (ruby_executable_node(node, out var state))
             {
